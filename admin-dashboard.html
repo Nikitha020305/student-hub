@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - Student Hub</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body class="app-layout">
+
+  <!-- ==============================================
+       ADMIN SIDEBAR NAVIGATION (Dark Slate Theme)
+       ============================================== -->
+  <aside class="app-sidebar admin-sidebar" id="admin-sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-brand">
+        <span>🎓</span>
+        <span>Student Hub</span>
+      </a>
+      <span class="role-pill admin-pill">Admin</span>
+      <button class="sidebar-close-btn" id="admin-sidebar-close-btn" aria-label="Close menu">&times;</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item-btn active" data-tab="dashboard">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </button>
+
+      <button class="nav-item-btn" data-tab="students">
+        <span class="nav-icon">👥</span>
+        <span>Students</span>
+      </button>
+
+      <button class="nav-item-btn" data-tab="subjects">
+        <span class="nav-icon">📚</span>
+        <span>Subjects</span>
+      </button>
+
+      <button class="nav-item-btn" data-tab="tasks">
+        <span class="nav-icon">📋</span>
+        <span>Tasks</span>
+      </button>
+
+      <button class="nav-item-btn" data-tab="statistics">
+        <span class="nav-icon">📈</span>
+        <span>Statistics</span>
+      </button>
+
+      <button class="nav-item-btn" data-tab="settings">
+        <span class="nav-icon">⚙️</span>
+        <span>Settings</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="nav-item-btn logout-nav-btn" id="admin-logout-btn">
+        <span class="nav-icon">🚪</span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==============================================
+       MAIN APPLICATION SHELL
+       ============================================== -->
+  <div class="app-main">
+    <!-- Topbar -->
+    <header class="app-topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle-btn" id="admin-menu-toggle-btn" aria-label="Open sidebar menu">☰</button>
+        <h1 class="page-title" id="admin-page-title">Admin Dashboard</h1>
+      </div>
+
+      <div class="topbar-right">
+        <div class="user-badge">
+          <div class="user-avatar" style="background-color: #fef3c7; border-color: #fde68a;">👩‍💼</div>
+          <div class="user-info-text">
+            <span class="user-name">Dr. Sarah Connor</span>
+            <span class="user-role-label">System Administrator</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Body with SPA Tab Panes -->
+    <main class="content-body">
+
+      <!-- ==========================================
+           TAB 1: ADMIN DASHBOARD OVERVIEW
+           ========================================== -->
+      <section class="tab-pane active" id="tab-dashboard">
+        <div class="welcome-banner admin-banner">
+          <div class="welcome-text">
+            <h2>Institutional Administration Console 🏛️</h2>
+            <p>Welcome, Dr. Sarah Connor. Real-time overview of student registrations, active courses, and task completions.</p>
+          </div>
+          <button class="banner-action-btn" onclick="openAddStudentModal()">
+            + Register New Student
+          </button>
+        </div>
+
+        <!-- 5 Key Admin Stats -->
+        <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+          <div class="stat-card">
+            <div class="stat-icon icon-blue">👥</div>
+            <div class="stat-info">
+              <div class="stat-value" id="stat-total-students">0</div>
+              <div class="stat-label">Total Students</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon icon-purple">📚</div>
+            <div class="stat-info">
+              <div class="stat-value" id="stat-total-subjects">0</div>
+              <div class="stat-label">Total Subjects</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon icon-amber">📋</div>
+            <div class="stat-info">
+              <div class="stat-value" id="stat-total-tasks">0</div>
+              <div class="stat-label">Total Tasks</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon icon-green">✅</div>
+            <div class="stat-info">
+              <div class="stat-value" id="stat-completed-tasks">0</div>
+              <div class="stat-label">Completed Tasks</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon icon-blue">📈</div>
+            <div class="stat-info">
+              <div class="stat-value" id="stat-overall-progress">0%</div>
+              <div class="stat-label">Overall Progress</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Split Grid: Recent Students & Recent Tasks -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem;">
+          <div class="table-card" style="padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 style="font-size: 1.1rem; font-weight: 700;">Enrolled Students</h3>
+              <button class="btn-text" onclick="switchAdminTab('students')">View Table →</button>
+            </div>
+            <div id="dash-recent-students"></div>
+          </div>
+
+          <div class="table-card" style="padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 style="font-size: 1.1rem; font-weight: 700;">Assigned Coursework Tasks</h3>
+              <button class="btn-text" onclick="switchAdminTab('tasks')">View Table →</button>
+            </div>
+            <div id="dash-recent-tasks"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 2: MANAGE STUDENTS
+           ========================================== -->
+      <section class="tab-pane" id="tab-students">
+        <div class="table-card">
+          <div class="table-header-bar">
+            <div>
+              <h3>Student Registry</h3>
+              <p style="font-size: 0.85rem; color: #64748b;">Manage student records, view individual progress, and edit class statuses.</p>
+            </div>
+
+            <div class="table-actions">
+              <input type="text" id="student-search-input" class="search-input" placeholder="🔍 Search name, email, class..." />
+              <button class="btn btn-primary" onclick="openAddStudentModal()">
+                + Add Student
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Email</th>
+                  <th>Class</th>
+                  <th>Tasks Completed</th>
+                  <th>Progress</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="students-table-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 3: MANAGE SUBJECTS
+           ========================================== -->
+      <section class="tab-pane" id="tab-subjects">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">Manage Academic Subjects</h2>
+            <p style="color: #64748b;">Configure course offerings, syllabus descriptions, and assigned faculty.</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddSubjectModal()">
+            + Add New Subject
+          </button>
+        </div>
+
+        <div class="subjects-grid" id="admin-subjects-grid">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 4: MANAGE TASKS
+           ========================================== -->
+      <section class="tab-pane" id="tab-tasks">
+        <div class="table-card">
+          <div class="table-header-bar">
+            <div>
+              <h3>Assigned Student Coursework & Tasks</h3>
+              <p style="font-size: 0.85rem; color: #64748b;">Track global academic assignments, due dates, and student submissions.</p>
+            </div>
+
+            <button class="btn btn-primary" onclick="openAddTaskModal()">
+              + Assign Task
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Task Description</th>
+                  <th>Subject</th>
+                  <th>Due Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-tasks-table-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 5: STATISTICS & ANALYTICS
+           ========================================== -->
+      <section class="tab-pane" id="tab-statistics">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">Academic Performance & Statistics</h2>
+          <p style="color: #64748b;">Visual performance indicators showing student activity, subject usage, and task completion rates.</p>
+        </div>
+
+        <div class="charts-grid">
+          <!-- Chart 1: Weekly Student Study Activity (Pure CSS Bar Chart) -->
+          <div class="chart-card">
+            <h4>
+              <span>Student Activity Trend (Weekly Hours)</span>
+              <span style="font-size: 0.8rem; color: #16a34a; font-weight: 600;">↑ +14% vs last week</span>
+            </h4>
+            <div class="bar-chart">
+              <div class="bar-column">
+                <div class="bar-fill" style="height: 55%;" data-val="28 hrs"></div>
+                <span class="bar-label">Mon</span>
+              </div>
+              <div class="bar-column">
+                <div class="bar-fill" style="height: 70%;" data-val="35 hrs"></div>
+                <span class="bar-label">Tue</span>
+              </div>
+              <div class="bar-column">
+                <div class="bar-fill" style="height: 85%;" data-val="44 hrs"></div>
+                <span class="bar-label">Wed</span>
+              </div>
+              <div class="bar-column">
+                <div class="bar-fill" style="height: 60%;" data-val="31 hrs"></div>
+                <span class="bar-label">Thu</span>
+              </div>
+              <div class="bar-column">
+                <div class="bar-fill" style="height: 95%;" data-val="49 hrs"></div>
+                <span class="bar-label">Fri</span>
+              </div>
+              <div class="bar-column">
+                <div class="bar-fill" style="height: 40%;" data-val="20 hrs"></div>
+                <span class="bar-label">Sat</span>
+              </div>
+              <div class="bar-column">
+                <div class="bar-fill" style="height: 50%;" data-val="25 hrs"></div>
+                <span class="bar-label">Sun</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chart 2: Task Completion Status Breakdown -->
+          <div class="chart-card">
+            <h4>Task Completion Breakdown</h4>
+            <div class="meter-list" style="margin-top: 1rem;">
+              <div class="meter-item">
+                <div class="meter-header">
+                  <span>Completed Tasks</span>
+                  <span id="chart-comp-text" style="color: #16a34a; font-weight: 700;">0</span>
+                </div>
+                <div class="progress-track" style="height: 10px;">
+                  <div class="progress-fill green" id="chart-comp-fill" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div class="meter-item">
+                <div class="meter-header">
+                  <span>In Progress Tasks</span>
+                  <span id="chart-prog-text" style="color: #0284c7; font-weight: 700;">0</span>
+                </div>
+                <div class="progress-track" style="height: 10px;">
+                  <div class="progress-fill" id="chart-prog-fill" style="width: 0%; background-color: #0284c7;"></div>
+                </div>
+              </div>
+
+              <div class="meter-item">
+                <div class="meter-header">
+                  <span>Pending Tasks</span>
+                  <span id="chart-pend-text" style="color: #d97706; font-weight: 700;">0</span>
+                </div>
+                <div class="progress-track" style="height: 10px;">
+                  <div class="progress-fill amber" id="chart-pend-fill" style="width: 0%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chart 3: Subject Usage / Enrollment Meters -->
+          <div class="chart-card" style="grid-column: 1 / -1;">
+            <h4>Subject Usage & Enrollment Volume</h4>
+            <div class="meter-list" id="chart-subject-meters">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 6: SETTINGS
+           ========================================== -->
+      <section class="tab-pane" id="tab-settings">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">Platform Settings & Demo Controls</h2>
+          <p style="color: #64748b;">Configure demonstration parameters or restore fresh test datasets.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+          <!-- Institution Config -->
+          <div class="table-card" style="padding: 1.75rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem;">Academic System Info</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.95rem;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #64748b;">Current Academic Year:</span>
+                <strong>2026 – 2027</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #64748b;">Platform Version:</span>
+                <strong>Student Hub v2.0 (Role Separated)</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #64748b;">Storage Engine:</span>
+                <span class="topic-pill">Browser localStorage</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #64748b;">Active Admin Account:</span>
+                <strong>admin (Dr. Sarah Connor)</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Demo Reset Card -->
+          <div class="table-card" style="padding: 1.75rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; color: #dc2626;">Reset Demo Data</h3>
+            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.25rem;">
+              If you have added, modified, or deleted test records, click below to restore the complete initial demonstration dataset.
+            </p>
+            <button class="btn btn-delete" style="padding: 0.75rem 1.25rem; font-size: 0.95rem;" onclick="resetAllDemoData()">
+              🔄 Reset Demo Data to Default
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==============================================
+       MODALS FOR ADMIN CRUD
+       ============================================== -->
+
+  <!-- 1. View Student Modal -->
+  <div class="modal-overlay" id="view-student-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Student Information</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body" id="view-student-modal-body">
+        <!-- Filled dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline modal-cancel-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Add / Edit Student Modal -->
+  <div class="modal-overlay" id="edit-student-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="edit-student-modal-title">Student Profile</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="student-edit-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Full Name <span class="required">*</span></label>
+            <input type="text" id="modal-student-name" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email <span class="required">*</span></label>
+            <input type="email" id="modal-student-email" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Class / Grade</label>
+            <input type="text" id="modal-student-class" class="form-input" required />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Tasks Completed</label>
+              <input type="number" id="modal-student-tasks" class="form-input" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Progress (%)</label>
+              <input type="number" id="modal-student-progress" class="form-input" min="0" max="100" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select id="modal-student-status" class="form-input">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Add / Edit Subject Modal -->
+  <div class="modal-overlay" id="edit-subject-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="edit-subject-modal-title">Subject Details</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="subject-edit-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Subject Name <span class="required">*</span></label>
+            <input type="text" id="modal-subject-name" class="form-input" placeholder="e.g. Economics" required />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Code</label>
+              <input type="text" id="modal-subject-code" class="form-input" placeholder="e.g. ECON201" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Enrolled Students</label>
+              <input type="number" id="modal-subject-enrolled" class="form-input" min="0" value="30" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Lead Teacher</label>
+            <input type="text" id="modal-subject-teacher" class="form-input" placeholder="e.g. Dr. Adam Smith" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea id="modal-subject-desc" class="form-textarea" rows="3" placeholder="Brief subject summary..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Subject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. Add / Edit Task Modal -->
+  <div class="modal-overlay" id="edit-task-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="edit-task-modal-title">Coursework Task</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="admin-task-edit-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Assigned Student <span class="required">*</span></label>
+            <input type="text" id="modal-task-student" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Task Description <span class="required">*</span></label>
+            <input type="text" id="modal-task-desc" class="form-input" required />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <select id="modal-task-subject" class="form-input">
+                <option value="Mathematics">Mathematics</option>
+                <option value="Science">Science</option>
+                <option value="English">English</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="History">History</option>
+                <option value="Geography">Geography</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Due Date</label>
+              <input type="date" id="modal-task-date" class="form-input" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select id="modal-task-status" class="form-input">
+              <option value="Pending">Pending</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="auth.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

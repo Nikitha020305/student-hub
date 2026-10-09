@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Hub - Organize Your Studies</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ==============================================
+       NAVIGATION BAR
+       Contains brand logo and links to page sections
+       ============================================== -->
+  <header class="header">
+    <nav class="navbar" id="navbar">
+      <a href="#home" class="nav-brand">
+        <span class="brand-icon">🎓</span>
+        <span class="brand-text">Student Hub</span>
+      </a>
+
+      <!-- Mobile Hamburger Button -->
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+
+      <!-- Navigation Links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#subjects" class="nav-link">Subjects</a></li>
+        <li><a href="#tasks" class="nav-link">Task Manager</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><a href="login.html" id="nav-auth-link" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Sign In</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ==============================================
+       HOME / HERO SECTION
+       Large welcoming heading, description, and CTA
+       ============================================== -->
+  <section class="hero-section" id="home">
+    <div class="hero-container">
+      <div class="hero-badge">✨ Your Academic Companion</div>
+      <h1 class="hero-title">Welcome to Student Hub</h1>
+      <p class="hero-description">
+        The all-in-one platform built to help students stay organized, master core subjects, 
+        and manage daily study tasks with ease and confidence.
+      </p>
+      <div class="hero-buttons">
+        <a href="#subjects" class="btn btn-primary">Get Started</a>
+        <a href="#tasks" class="btn btn-outline">Manage Tasks</a>
+        <a href="login.html" class="btn btn-outline" style="background: #ffffff; border-color: #3b82f6; color: #2563eb;">Portals &amp; Login 🔐</a>
+      </div>
+
+      <!-- Quick Feature Highlights -->
+      <div class="hero-features">
+        <div class="feature-item">
+          <span class="feature-icon">📚</span>
+          <span>Core Subjects</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">✅</span>
+          <span>Task Tracking</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">⚡</span>
+          <span>Distraction-Free</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       ABOUT SECTION
+       Explains the purpose and benefits of Student Hub
+       ============================================== -->
+  <section class="section about-section" id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Why Choose Us</span>
+        <h2 class="section-title">About Student Hub</h2>
+        <p class="section-subtitle">
+          Student Hub was created to simplify student life by giving you a clean, focused place to track your daily workload and navigate academic subjects.
+        </p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-icon-box">🎯</div>
+          <h3>Stay Organized</h3>
+          <p>
+            Never miss an assignment or homework deadline again. Keep all your daily study tasks structured in one easy-to-use checklist.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <div class="about-icon-box">🧠</div>
+          <h3>Focused Learning</h3>
+          <p>
+            Quickly review essential concepts across Mathematics, Science, English, and Computer Science to prepare for exams and tests.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <div class="about-icon-box">🚀</div>
+          <h3>Boost Productivity</h3>
+          <p>
+            Clean layout with zero complicated setup. Everything works directly in your browser so you can concentrate on achieving great grades.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       SUBJECTS SECTION
+       Four interactive cards for the core subjects
+       ============================================== -->
+  <section class="section subjects-section" id="subjects">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Study Areas</span>
+        <h2 class="section-title">Explore Subjects</h2>
+        <p class="section-subtitle">
+          Dive into foundational topics across key fields of study designed to strengthen your academic skills.
+        </p>
+      </div>
+
+      <div class="subjects-grid">
+        <!-- Subject 1: Mathematics -->
+        <article class="subject-card math-card">
+          <div class="subject-icon">📐</div>
+          <span class="subject-badge">Problem Solving</span>
+          <h3 class="subject-title">Mathematics</h3>
+          <p class="subject-description">
+            Build strong analytical skills by mastering algebraic formulas, calculus concepts, geometry theorems, and statistical problem solving.
+          </p>
+          <div class="subject-topics">
+            <span class="topic-pill">Algebra</span>
+            <span class="topic-pill">Calculus</span>
+            <span class="topic-pill">Geometry</span>
+            <span class="topic-pill">Statistics</span>
+          </div>
+          <button class="subject-btn" onclick="showSubjectAlert('Mathematics')">Explore Mathematics</button>
+        </article>
+
+        <!-- Subject 2: Science -->
+        <article class="subject-card science-card">
+          <div class="subject-icon">🔬</div>
+          <span class="subject-badge">Discovery</span>
+          <h3 class="subject-title">Science</h3>
+          <p class="subject-description">
+            Understand the natural world through hands-on principles of physics, chemical reactions, cell biology, and environmental wonders.
+          </p>
+          <div class="subject-topics">
+            <span class="topic-pill">Physics</span>
+            <span class="topic-pill">Chemistry</span>
+            <span class="topic-pill">Biology</span>
+            <span class="topic-pill">Ecology</span>
+          </div>
+          <button class="subject-btn" onclick="showSubjectAlert('Science')">Explore Science</button>
+        </article>
+
+        <!-- Subject 3: English -->
+        <article class="subject-card english-card">
+          <div class="subject-icon">📖</div>
+          <span class="subject-badge">Communication</span>
+          <h3 class="subject-title">English</h3>
+          <p class="subject-description">
+            Refine your written and verbal expression with comprehensive study of literary analysis, grammar rules, vocabulary, and creative essay writing.
+          </p>
+          <div class="subject-topics">
+            <span class="topic-pill">Literature</span>
+            <span class="topic-pill">Grammar</span>
+            <span class="topic-pill">Essay Writing</span>
+            <span class="topic-pill">Vocabulary</span>
+          </div>
+          <button class="subject-btn" onclick="showSubjectAlert('English')">Explore English</button>
+        </article>
+
+        <!-- Subject 4: Computer Science -->
+        <article class="subject-card cs-card">
+          <div class="subject-icon">💻</div>
+          <span class="subject-badge">Technology</span>
+          <h3 class="subject-title">Computer Science</h3>
+          <p class="subject-description">
+            Unlock the power of modern coding by learning core programming languages, algorithms, web development, and digital problem solving.
+          </p>
+          <div class="subject-topics">
+            <span class="topic-pill">Programming</span>
+            <span class="topic-pill">Web Dev</span>
+            <span class="topic-pill">Algorithms</span>
+            <span class="topic-pill">Data Structures</span>
+          </div>
+          <button class="subject-btn" onclick="showSubjectAlert('Computer Science')">Explore Computer Science</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       TASK MANAGER SECTION
+       Interactive to-do list for managing student tasks
+       ============================================== -->
+  <section class="section tasks-section" id="tasks">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Productivity Tool</span>
+        <h2 class="section-title">Study Task Manager</h2>
+        <p class="section-subtitle">
+          Keep your homework, study sessions, and project deadlines in check. Add tasks below and mark them complete as you finish.
+        </p>
+      </div>
+
+      <div class="task-manager-card">
+        <!-- Task Input Bar -->
+        <form id="task-form" class="task-form">
+          <div class="task-input-wrapper">
+            <input 
+              type="text" 
+              id="task-input" 
+              class="task-input" 
+              placeholder="e.g., Complete Mathematics problem set 4..." 
+              autocomplete="off"
+            />
+          </div>
+          <button type="submit" id="add-task-btn" class="btn btn-primary add-task-btn">
+            <span class="plus-icon">+</span> Add Task
+          </button>
+        </form>
+
+        <!-- Task Stats and Controls -->
+        <div class="task-controls">
+          <div class="task-counter" id="task-counter">
+            <span id="tasks-remaining">0</span> tasks remaining
+          </div>
+          <button type="button" id="clear-completed-btn" class="btn-text">
+            Clear Completed
+          </button>
+        </div>
+
+        <!-- Task List Items -->
+        <ul id="task-list" class="task-list">
+          <!-- Dynamically populated by script.js -->
+        </ul>
+
+        <!-- Empty State Message -->
+        <div id="task-empty-state" class="task-empty-state hidden">
+          <span class="empty-icon">🎉</span>
+          <p>No tasks yet! Add your first study task above.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       CONTACT SECTION
+       Simple and clean contact form
+       ============================================== -->
+  <section class="section contact-section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Get In Touch</span>
+        <h2 class="section-title">Contact Us</h2>
+        <p class="section-subtitle">
+          Have feedback, need study assistance, or want to suggest a new feature? Send us a message!
+        </p>
+      </div>
+
+      <div class="contact-wrapper">
+        <!-- Contact Info Box -->
+        <div class="contact-info">
+          <h3>Let's Connect</h3>
+          <p>
+            We are always here to support your learning journey. Reach out anytime with your questions or ideas.
+          </p>
+
+          <div class="contact-detail-item">
+            <div class="detail-icon">📧</div>
+            <div>
+              <strong>Email</strong>
+              <p>support@studenthub.local</p>
+            </div>
+          </div>
+
+          <div class="contact-detail-item">
+            <div class="detail-icon">📍</div>
+            <div>
+              <strong>Campus Location</strong>
+              <p>Main Academic Quad, Study Hall 101</p>
+            </div>
+          </div>
+
+          <div class="contact-detail-item">
+            <div class="detail-icon">⏰</div>
+            <div>
+              <strong>Study Hours</strong>
+              <p>Monday – Friday: 8:00 AM – 8:00 PM</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form-card">
+          <!-- Form Submission Success Alert Banner -->
+          <div id="form-alert" class="alert-box alert-success hidden">
+            <span class="alert-icon">✅</span>
+            <div class="alert-text">
+              <strong id="alert-title">Thank you!</strong>
+              <p id="alert-message">Your message has been received.</p>
+            </div>
+          </div>
+
+          <form id="contact-form" class="contact-form" novalidate>
+            <div class="form-group">
+              <label for="contact-name" class="form-label">Full Name <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="contact-name" 
+                name="name" 
+                class="form-input" 
+                placeholder="e.g., Alex Johnson" 
+                required 
+              />
+              <span class="field-error" id="name-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="contact-email" class="form-label">Email Address <span class="required">*</span></label>
+              <input 
+                type="email" 
+                id="contact-email" 
+                name="email" 
+                class="form-input" 
+                placeholder="e.g., alex@university.edu" 
+                required 
+              />
+              <span class="field-error" id="email-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="contact-message" class="form-label">Your Message <span class="required">*</span></label>
+              <textarea 
+                id="contact-message" 
+                name="message" 
+                rows="5" 
+                class="form-textarea" 
+                placeholder="Tell us how we can help you with your studies..." 
+                required
+              ></textarea>
+              <span class="field-error" id="message-error"></span>
+            </div>
+
+            <button type="submit" id="contact-submit-btn" class="btn btn-primary btn-block">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       FOOTER
+       ============================================== -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <span class="footer-logo">🎓 Student Hub</span>
+        <p>Empowering students to organize, learn, and succeed.</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#subjects">Subjects</a>
+        <a href="#tasks">Task Manager</a>
+        <a href="#contact">Contact</a>
+        <a href="login.html" style="color: #60a5fa; font-weight: 700;">Login Portals 🔐</a>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Student Hub. All rights reserved. Created for learners everywhere.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Link JavaScript -->
+  <script src="auth.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Enhance Nav Login link if already logged in
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = getCurrentUser();
+      const navAuthLink = document.getElementById("nav-auth-link");
+      if (user && navAuthLink) {
+        if (user.role === "admin") {
+          navAuthLink.textContent = "Admin Portal ⚙️";
+          navAuthLink.href = "admin-dashboard.html";
+        } else {
+          navAuthLink.textContent = "Student Portal 👨‍🎓";
+          navAuthLink.href = "student-dashboard.html";
+        }
+      }
+    });
+  </script>
+</body>
+</html>

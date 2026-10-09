@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Student Hub Portal</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Dedicated Login Styling */
+    .login-page {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.25rem;
+    }
+
+    .login-brand-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .login-brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #0f172a;
+      text-decoration: none;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 480px;
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      padding: 2.25rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Role Selector Tabs */
+    .role-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      background-color: #f1f5f9;
+      padding: 0.35rem;
+      border-radius: 10px;
+      margin-bottom: 1.75rem;
+    }
+
+    .role-tab-btn {
+      padding: 0.75rem 1rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      background: transparent;
+      color: #64748b;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .role-tab-btn.active {
+      background-color: #ffffff;
+      color: #2563eb;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    .role-tab-btn.active.admin-tab {
+      color: #b45309;
+    }
+
+    /* Demo Credentials Display Cards */
+    .demo-credentials-card {
+      background-color: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+    }
+
+    .demo-cred-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .autofill-btn {
+      background-color: #eff6ff;
+      color: #2563eb;
+      border: 1px solid #bfdbfe;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .autofill-btn:hover {
+      background-color: #2563eb;
+      color: #ffffff;
+    }
+
+    .demo-cred-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.25rem;
+      color: #475569;
+    }
+
+    .cred-code {
+      font-family: monospace;
+      font-weight: 700;
+      background-color: #e2e8f0;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+
+    /* Disclaimer */
+    .security-disclaimer {
+      font-size: 0.8rem;
+      color: #64748b;
+      background-color: #fffbeb;
+      border: 1px solid #fef3c7;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .back-home-link {
+      margin-top: 1.75rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #64748b;
+      text-decoration: none;
+    }
+
+    .back-home-link:hover {
+      color: #2563eb;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body class="login-page">
+
+  <div class="login-brand-header">
+    <a href="index.html" class="login-brand-link">
+      <span>🎓</span>
+      <span>Student Hub</span>
+    </a>
+    <p style="color: #64748b; font-size: 0.95rem;">Select your role and sign in to access your portal</p>
+  </div>
+
+  <div class="login-container">
+    <!-- Role Switcher -->
+    <div class="role-tabs">
+      <button type="button" class="role-tab-btn active" id="tab-student" onclick="setLoginRole('student')">
+        <span>👨‍🎓</span> Student
+      </button>
+      <button type="button" class="role-tab-btn" id="tab-admin" onclick="setLoginRole('admin')">
+        <span>👩‍💼</span> Admin
+      </button>
+    </div>
+
+    <!-- Live Demo Credentials Box -->
+    <div class="demo-credentials-card" id="demo-credentials-box">
+      <div class="demo-cred-header">
+        <span id="demo-role-badge">Student Demo Credentials</span>
+        <button type="button" class="autofill-btn" onclick="autofillCurrentCredentials()">Autofill</button>
+      </div>
+      <div class="demo-cred-row">
+        <span>Username:</span>
+        <span class="cred-code" id="demo-user-text">student</span>
+      </div>
+      <div class="demo-cred-row">
+        <span>Password:</span>
+        <span class="cred-code" id="demo-pass-text">student123</span>
+      </div>
+    </div>
+
+    <!-- Alert / Error message container -->
+    <div id="login-error-alert" class="alert-box hidden" style="background-color: #fef2f2; border: 1px solid #fecaca; color: #dc2626; margin-bottom: 1.25rem;">
+      <span class="alert-icon">⚠️</span>
+      <div class="alert-text">
+        <strong id="login-error-title">Sign in failed</strong>
+        <p id="login-error-message">Invalid credentials.</p>
+      </div>
+    </div>
+
+    <!-- Login Form -->
+    <form id="login-form" novalidate>
+      <div class="form-group">
+        <label for="login-username" class="form-label">Username <span class="required">*</span></label>
+        <input 
+          type="text" 
+          id="login-username" 
+          class="form-input" 
+          placeholder="Enter username" 
+          autocomplete="username" 
+          required 
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="login-password" class="form-label">Password <span class="required">*</span></label>
+        <input 
+          type="password" 
+          id="login-password" 
+          class="form-input" 
+          placeholder="Enter password" 
+          autocomplete="current-password" 
+          required 
+        />
+      </div>
+
+      <button type="submit" id="login-submit-btn" class="btn btn-primary btn-block" style="padding: 0.9rem; margin-top: 0.75rem;">
+        Sign In as Student
+      </button>
+    </form>
+
+    <!-- Frontend Demo Security Note -->
+    <div class="security-disclaimer">
+      <strong>⚠️ Demo Security Notice:</strong> This application is a frontend demonstration using browser <code>localStorage</code>. It does not use a real backend database or secure server authentication.
+    </div>
+  </div>
+
+  <a href="index.html" class="back-home-link">← Return to Public Website</a>
+
+  <!-- Script references -->
+  <script src="auth.js"></script>
+  <script>
+    // State: Current chosen role
+    let currentRole = "student";
+
+    function setLoginRole(role) {
+      currentRole = role;
+      const tabStudent = document.getElementById("tab-student");
+      const tabAdmin = document.getElementById("tab-admin");
+      const submitBtn = document.getElementById("login-submit-btn");
+      const roleBadge = document.getElementById("demo-role-badge");
+      const demoUser = document.getElementById("demo-user-text");
+      const demoPass = document.getElementById("demo-pass-text");
+
+      // Clear any previous error
+      hideLoginError();
+
+      if (role === "student") {
+        tabStudent.className = "role-tab-btn active";
+        tabAdmin.className = "role-tab-btn";
+        submitBtn.textContent = "Sign In as Student";
+        submitBtn.style.backgroundColor = "var(--primary)";
+        roleBadge.textContent = "Student Demo Credentials";
+        demoUser.textContent = "student";
+        demoPass.textContent = "student123";
+      } else {
+        tabStudent.className = "role-tab-btn";
+        tabAdmin.className = "role-tab-btn active admin-tab";
+        submitBtn.textContent = "Sign In as Administrator";
+        submitBtn.style.backgroundColor = "#0f172a";
+        roleBadge.textContent = "Admin Demo Credentials";
+        demoUser.textContent = "admin";
+        demoPass.textContent = "admin123";
+      }
+    }
+
+    function autofillCurrentCredentials() {
+      const userInput = document.getElementById("login-username");
+      const passInput = document.getElementById("login-password");
+
+      if (currentRole === "student") {
+        userInput.value = "student";
+        passInput.value = "student123";
+      } else {
+        userInput.value = "admin";
+        passInput.value = "admin123";
+      }
+      hideLoginError();
+    }
+
+    function showLoginError(msg) {
+      const alertBox = document.getElementById("login-error-alert");
+      const msgElem = document.getElementById("login-error-message");
+      if (alertBox && msgElem) {
+        msgElem.textContent = msg;
+        alertBox.classList.remove("hidden");
+      }
+    }
+
+    function hideLoginError() {
+      const alertBox = document.getElementById("login-error-alert");
+      if (alertBox) alertBox.classList.add("hidden");
+    }
+
+    // Form submission handler
+document.getElementById("login-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const username = document.getElementById("login-username").value;
+  const password = document.getElementById("login-password").value;
+
+  if (!username.trim() || !password.trim()) {
+    showLoginError("Please enter both username and password.");
+    return;
+  }
+
+  const result = await loginUser(username, password, currentRole);
+
+  if (result.success) {
+    window.location.href = result.redirect;
+  } else {
+    showLoginError(result.message);
+  }
+});
+
+    // Check if user is already logged in
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = getCurrentUser();
+      if (user) {
+        // If already logged in, show a gentle note or allow instant redirect
+        const params = new URLSearchParams(window.location.search);
+        if (!params.get("switch")) {
+          if (user.role === "admin") {
+            window.location.href = "admin-dashboard.html";
+          } else if (user.role === "student") {
+            window.location.href = "student-dashboard.html";
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

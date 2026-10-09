@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard - Student Hub</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body class="app-layout">
+
+  <!-- ==============================================
+       STUDENT SIDEBAR NAVIGATION
+       ============================================== -->
+  <aside class="app-sidebar" id="student-sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-brand">
+        <span>🎓</span>
+        <span>Student Hub</span>
+      </a>
+      <span class="role-pill">Student</span>
+      <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close menu">&times;</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item-btn active" data-tab="dashboard">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </button>
+
+      <button class="nav-item-btn" data-tab="subjects">
+        <span class="nav-icon">📚</span>
+        <span>Subjects</span>
+      </button>
+
+      <button class="nav-item-btn" data-tab="tasks">
+        <span class="nav-icon">✅</span>
+        <span>Tasks</span>
+      </button>
+
+      <button class="nav-item-btn" data-tab="goals">
+        <span class="nav-icon">🎯</span>
+        <span>Study Goals</span>
+      </button>
+
+      <button class="nav-item-btn" data-tab="notes">
+        <span class="nav-icon">📝</span>
+        <span>Notes</span>
+      </button>
+
+      <button class="nav-item-btn" data-tab="timer">
+        <span class="nav-icon">⏰</span>
+        <span>Study Timer</span>
+      </button>
+
+      <button class="nav-item-btn" data-tab="profile">
+        <span class="nav-icon">👤</span>
+        <span>Profile</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="nav-item-btn logout-nav-btn" id="student-logout-btn">
+        <span class="nav-icon">🚪</span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==============================================
+       MAIN APPLICATION SHELL
+       ============================================== -->
+  <div class="app-main">
+    <!-- Topbar -->
+    <header class="app-topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle-btn" id="menu-toggle-btn" aria-label="Open sidebar menu">☰</button>
+        <h1 class="page-title" id="current-page-title">Student Dashboard</h1>
+      </div>
+
+      <div class="topbar-right">
+        <div class="user-badge">
+          <div class="user-avatar">👨‍🎓</div>
+          <div class="user-info-text">
+            <span class="user-name" id="topbar-student-name">Alex Johnson</span>
+            <span class="user-role-label">Student Member</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Body with SPA Tab Panes -->
+    <main class="content-body">
+
+      <!-- ==========================================
+           TAB 1: DASHBOARD OVERVIEW
+           ========================================== -->
+      <section class="tab-pane active" id="tab-dashboard">
+        <div class="welcome-banner">
+          <div class="welcome-text">
+            <h2>Welcome back, Alex! 👋</h2>
+            <p>You have made steady progress this week. Stay focused and keep reaching your study goals.</p>
+          </div>
+          <button class="banner-action-btn" onclick="switchTab('tasks')">
+            + View Today's Tasks
+          </button>
+        </div>
+
+        <!-- Metric Stat Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon icon-blue">📋</div>
+            <div class="stat-info">
+              <div class="stat-value" id="dash-total-tasks">0</div>
+              <div class="stat-label">Total Study Tasks</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon icon-green">✅</div>
+            <div class="stat-info">
+              <div class="stat-value" id="dash-completed-tasks">0</div>
+              <div class="stat-label">Completed Tasks</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon icon-purple">🎯</div>
+            <div class="stat-info">
+              <div class="stat-value" id="dash-active-goals">0</div>
+              <div class="stat-label">Active Goals</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon icon-amber">📝</div>
+            <div class="stat-info">
+              <div class="stat-value" id="dash-total-notes">0</div>
+              <div class="stat-label">Saved Study Notes</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overall Study Progress Meter -->
+        <div class="table-card" style="padding: 1.5rem 1.75rem; margin-bottom: 2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: #0f172a;">Overall Task Completion Progress</h3>
+            <span id="dash-overall-progress-text" style="font-weight: 800; color: #2563eb; font-size: 1.1rem;">0%</span>
+          </div>
+          <div class="progress-track" style="height: 12px;">
+            <div id="dash-overall-progress-fill" class="progress-fill green" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Split Grid: Upcoming Tasks & Active Goals -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+          <div class="table-card" style="padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 style="font-size: 1.1rem; font-weight: 700;">Upcoming Tasks</h3>
+              <button class="btn-text" onclick="switchTab('tasks')">See All →</button>
+            </div>
+            <div id="dash-mini-tasks"></div>
+          </div>
+
+          <div class="table-card" style="padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 style="font-size: 1.1rem; font-weight: 700;">Study Goals</h3>
+              <button class="btn-text" onclick="switchTab('goals')">See All →</button>
+            </div>
+            <div id="dash-mini-goals"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 2: SUBJECTS
+           ========================================== -->
+      <section class="tab-pane" id="tab-subjects">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">Enrolled Subjects</h2>
+          <p style="color: #64748b;">Explore course syllabi, faculty contacts, and practical study guides.</p>
+        </div>
+        <div class="subjects-grid" id="student-subjects-grid">
+          <!-- Populated by student.js -->
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 3: TASKS
+           ========================================== -->
+      <section class="tab-pane" id="tab-tasks">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">Personal Study Tasks</h2>
+          <p style="color: #64748b;">Add your homework, assign subjects, set due dates, and tick off tasks as you finish.</p>
+        </div>
+
+        <div class="task-manager-card" style="max-width: 100%;">
+          <!-- Enhanced Task Creation Form -->
+          <form id="student-task-form" style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+            <input 
+              type="text" 
+              id="student-task-input" 
+              class="form-input" 
+              placeholder="What do you need to study or complete?" 
+              style="flex-grow: 1; min-width: 250px;" 
+              required 
+            />
+            <select id="student-task-subject" class="form-input" style="width: auto; min-width: 150px;">
+              <option value="Mathematics">Mathematics</option>
+              <option value="Science">Science</option>
+              <option value="English">English</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="History">History</option>
+              <option value="Geography">Geography</option>
+              <option value="General">General</option>
+            </select>
+            <input 
+              type="date" 
+              id="student-task-date" 
+              class="form-input" 
+              style="width: auto;" 
+            />
+            <button type="submit" class="btn btn-primary">
+              + Add Task
+            </button>
+          </form>
+
+          <div class="task-controls">
+            <div class="task-counter">
+              <span id="student-task-counter">0</span> pending tasks remaining
+            </div>
+          </div>
+
+          <ul id="student-task-list" class="task-list">
+            <!-- Populated dynamically -->
+          </ul>
+
+          <div id="student-task-empty" class="task-empty-state hidden">
+            <span class="empty-icon">🎉</span>
+            <p>No study tasks on your list! Enjoy your free time or add a new task above.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 4: STUDY GOALS
+           ========================================== -->
+      <section class="tab-pane" id="tab-goals">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">Academic Goals Tracker</h2>
+          <p style="color: #64748b;">Set measurable study targets to stay motivated and track your long-term milestones.</p>
+        </div>
+
+        <!-- Add Goal Card -->
+        <div class="table-card" style="padding: 1.75rem; margin-bottom: 2rem;">
+          <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem;">Set a New Study Goal</h3>
+          <form id="add-goal-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) auto; gap: 0.75rem; align-items: end;">
+            <div>
+              <label class="form-label">Goal Title</label>
+              <input type="text" id="goal-title-input" class="form-input" placeholder="e.g., Read 30 pages of Biology" required />
+            </div>
+            <div>
+              <label class="form-label">Subject</label>
+              <select id="goal-subject-select" class="form-input">
+                <option value="Mathematics">Mathematics</option>
+                <option value="Science">Science</option>
+                <option value="English">English</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="History">History</option>
+                <option value="Geography">Geography</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Target Units / Hours</label>
+              <input type="number" id="goal-target-input" class="form-input" min="1" max="500" value="20" required />
+            </div>
+            <div>
+              <label class="form-label">Target Completion Date</label>
+              <input type="date" id="goal-date-input" class="form-input" />
+            </div>
+            <button type="submit" class="btn btn-primary" style="height: 44px;">
+              Create Goal
+            </button>
+          </form>
+        </div>
+
+        <!-- Goals List -->
+        <div id="student-goals-list" class="goals-list">
+          <!-- Populated by student.js -->
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 5: NOTES
+           ========================================== -->
+      <section class="tab-pane" id="tab-notes">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">Study Notes & Quick Summaries</h2>
+          <p style="color: #64748b;">Capture formulas, definitions, and key revision takeaways for quick review before exams.</p>
+        </div>
+
+        <!-- Add Note Card -->
+        <div class="table-card" style="padding: 1.75rem; margin-bottom: 2rem;">
+          <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem;">Create New Study Note</h3>
+          <form id="add-note-form">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+              <div>
+                <label class="form-label">Note Title</label>
+                <input type="text" id="note-title-input" class="form-input" placeholder="e.g., Photosynthesis Key Reactions" required />
+              </div>
+              <div>
+                <label class="form-label">Subject</label>
+                <select id="note-subject-select" class="form-input">
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="Science">Science</option>
+                  <option value="English">English</option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="History">History</option>
+                  <option value="Geography">Geography</option>
+                  <option value="General">General</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label class="form-label">Note Details / Summary</label>
+              <textarea id="note-content-input" class="form-textarea" rows="3" placeholder="Write key formulas, reminders, or chapter takeaways..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              💾 Save Study Note
+            </button>
+          </form>
+        </div>
+
+        <div id="student-notes-grid" class="notes-grid">
+          <!-- Populated by student.js -->
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 6: STUDY TIMER (POMODORO)
+           ========================================== -->
+      <section class="tab-pane" id="tab-timer">
+        <div style="margin-bottom: 1.5rem; text-align: center;">
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">Focus Study Timer</h2>
+          <p style="color: #64748b;">Use interval study blocks to boost your concentration and eliminate digital distractions.</p>
+        </div>
+
+        <div class="timer-container">
+          <div class="timer-modes">
+            <button class="timer-mode-btn active" data-mins="25">25m Study</button>
+            <button class="timer-mode-btn" data-mins="50">50m Deep Work</button>
+            <button class="timer-mode-btn" data-mins="5">5m Break</button>
+            <button class="timer-mode-btn" data-mins="15">15m Long Break</button>
+          </div>
+
+          <div class="timer-display" id="timer-display">25:00</div>
+
+          <div class="timer-controls">
+            <button class="btn-timer-primary" id="timer-start-btn">Start Session</button>
+            <button class="btn-timer-secondary" id="timer-reset-btn">Reset</button>
+          </div>
+
+          <div>
+            <span class="timer-stats-badge" id="timer-session-count">0 sessions completed today</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           TAB 7: PROFILE
+           ========================================== -->
+      <section class="tab-pane" id="tab-profile">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;">Student Profile & Academic Settings</h2>
+          <p style="color: #64748b;">Manage your student credentials, bio, and academic registrations.</p>
+        </div>
+
+        <div class="profile-grid">
+          <!-- Profile Card -->
+          <div class="profile-card">
+            <div class="profile-big-avatar">👨‍🎓</div>
+            <h3 class="profile-name" id="profile-display-name">Alex Johnson</h3>
+            <div class="profile-role" id="profile-display-class">Grade 11 - Science & Tech</div>
+
+            <div class="profile-details-list">
+              <div>
+                <strong>Student ID:</strong>
+                <span id="profile-display-id" style="color: #2563eb; font-weight: 700;">SH-2026-042</span>
+              </div>
+              <div>
+                <strong>Username:</strong>
+                <span id="profile-display-username">student</span>
+              </div>
+              <div>
+                <strong>Email:</strong>
+                <span id="profile-display-email">student@studenthub.local</span>
+              </div>
+              <div>
+                <strong>Enrolled Subjects:</strong>
+                <div id="profile-enrolled-subjects" style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Edit Profile Form -->
+          <div class="profile-form-card">
+            <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.25rem;">Edit Personal Bio</h3>
+            <form id="profile-edit-form">
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" id="edit-profile-name" class="form-input" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" id="edit-profile-email" class="form-input" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Student Bio & Study Goals</label>
+                <textarea id="edit-profile-bio" class="form-textarea" rows="4"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                Save Profile Changes
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="auth.js"></script>
+  <script src="student.js"></script>
+</body>
+</html>
